@@ -25,7 +25,9 @@ public enum BinaryFormat
     /// <summary>
     ///     X
     /// </summary>
-    X
+    X,
+    FGO,
+    FGO2
 }
 
 public static class BinaryFormatEx
