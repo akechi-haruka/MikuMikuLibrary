@@ -259,15 +259,17 @@ public class FarcArchive : BinaryFile, IArchive {
                 uint offset = reader.ReadUInt32();
                 uint compressedSize = reader.ReadUInt32();
                 uint uncompressedSize = reader.ReadUInt32();
-
+                bool hasGarbage = false;
+                
                 if (Format == BinaryFormat.FGO || Format == BinaryFormat.FGO2) {
                     flags = reader.ReadInt32();
                     isGzipCompressed = (flags & 2) != 0;
                     isZstdCompressed = (flags & 32) != 0;
+                    hasGarbage = (flags & 16) != 0; // ???
                     isEncrypted = (flags & 4) != 0;
                 }
 
-                if (Format == BinaryFormat.FGO2) {
+                if (hasGarbage) {
                     // HACK: there's some weird unknown data of variable length before the data so... uhhh.....
                     // this does work ... for now...
                     long pos = reader.Position;
